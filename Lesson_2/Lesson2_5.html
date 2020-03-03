@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+       /* Реализовать основные 4 арифметические операции (+, -, /, *) в виде функций с двумя
+            параметрами. Т.е. например, функция для сложения должна принимать два числа, складывать их
+            и возвращать результат.
+            Обязательно использовать оператор return. */
+       
+       'use strict';
+       function addingOfNumbers(a ,b){
+            return(a + b);         
+       }
+       let summ = addingOfNumbers(5 ,4);
+       alert("сложение: "+"a + b = " + summ);
+       
+       function subtractionOfNumbers(a ,b){
+            return(a - b);         
+       }
+       let subtraction = subtractionOfNumbers(5 ,4);
+       alert("разность: "+"a - b = "+subtraction);
+       
+       function multiplyingOfNumber(a ,b){
+            return(a * b);         
+       }
+       let multi= multiplyingOfNumber(5 ,4);
+       alert("произведение: "+"a * b = "+multi);
+       
+       
+        function divisionOfNumbers(a ,b){
+            return(a / b);         
+       }
+       let division = divisionOfNumbers(5 ,4);
+       alert("деление: "+"a / b = "+division);
+     </script>   
+</body>
+</html>

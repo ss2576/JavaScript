@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+       /* Реализовать функцию с тремя параметрами: function mathOperation(arg1, arg2, operation),
+        где arg1, arg2 – значения аргументов, operation – строка с названием операции. В зависимости от
+        переданного значения операции (использовать switch) выполнить одну из арифметических
+        операций
+        (использовать функции из задания 4) и вернуть полученное значение. */
+       
+       'use strict';
+       let firstNumber = Number(prompt("Введите первое число:"));
+       let secondNumber = Number(prompt("Введите второе число:"));
+       let arithmeticActionSign = prompt("Введите знак арифметического действия");
+       
+       function arithmeticOperation(arg1 ,arg2 ,operation){
+           switch (operation){
+               case '+':
+               return (arg1 + arg2);
+               break; 
+               case '-':
+               return (arg1 - arg2);
+               break;
+               case '*':
+               return (arg1 * arg2);
+               break;
+               case '/':
+               return (arg1 / arg2);
+               break;       
+                   
+           }
+               
+       }
+       let actionValue = arithmeticOperation(firstNumber ,secondNumber ,arithmeticActionSign);
+       alert(actionValue);
+     </script>   
+</body>
+</html>

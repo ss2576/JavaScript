@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* С помощью рекурсии организовать функцию возведения числа в степень. Формат: function power(val, pow), где val – заданное число, pow –               степень.*/
+        
+       'use strict';
+        let number = Number(prompt("Введите число:"));
+        let degree = Number(prompt("В какую степень возвести число ?"));
+       function exponentiation(x , n){
+           if (n == 0){
+               return 1;
+           }
+           else{
+              return x * exponentiation(x , n - 1); 
+           }
+       }
+        alert("Ответ: "+exponentiation(number , degree));
+     </script>   
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        'use strict';
+       let secrets = [
+                {
+                    text: 'Первый космонавт?',
+                    variants: {
+                        1: 'Жак Ив Кусто',
+                        2: 'Юрий Гагарин',
+                        3: 'Луи Армстронг',
+                        4: 'Нил Армстронг',
+                    },
+                    correctAnswer: '2',
+                },
+                {
+                    text: 'На какой ракете полетел Юрий Гагарин?',
+                    variants: {
+                        1: 'Восток',
+                        2: 'Запад',
+                        3: 'Север',
+                        4: 'Юг',
+                    },
+                    correctAnswer: '1',
+                },
+                {
+                    text: 'В какой области СССР приземлился Юрий Гагарин?',
+                    variants: {
+                        1: 'Московская',
+                        2: 'Краснодарская',
+                        3: 'Челябинская',
+                        4: 'Саратовская',
+                    },
+                    correctAnswer: '4',
+                },
+                {
+                    text: 'Сколько по времени находился в космосе Юрий Гагарин?',
+                    variants: {
+                        1: '18 минут',
+                        2: '68 минут',
+                        3: '108 минут',
+                        4: '180 минут',
+                    },
+                    correctAnswer: '3',
+                },
+             
+            ];
+        
+        let game = {
+            score: 0,
+            nextQuestionIndex: 0,
+            run() {
+                if (!this.isQuestionExists()) {
+                    alert("Игра окончена, правильных ответов:" + this.score);
+                    this.nextQuestionIndex = 0;
+                    this.score = 0;
+                    if (confirm("Хотите сыграть еще раз?")) {
+                        this.run();
+                    }
+                    return;
+                }
+                let result = leader.askQuestion(secrets[this.nextQuestionIndex]);
+                if (result) {
+                    this.score++;
+                }
+                this.nextQuestionIndex++;
+                this.run();
+            },
+            isQuestionExists() {
+                return secrets[this.nextQuestionIndex] !== undefined;
+            }
+        };
+        
+        let leader = {
+            askQuestion(riddle) {
+                let variations = "";
+                for (let key in riddle.variants) {
+                    variations += (key + ":  " + riddle.variants[key] + "\n");
+                }
+                
+                let answer = prompt(riddle.text + "\n" + "варианты ответа:" + "\n" + variations);
+                return answer === riddle.correctAnswer;
+            }
+        };
+        
+        if (prompt("наберите 'старт' для начала игры.") == "старт"){
+            game.run();
+        }
+    </script>
+</body>
+
+</html>

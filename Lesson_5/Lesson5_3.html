@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    
+</head>
+<body>
+    <button>Модальное окно</button>
+
+    <div class="modal window">
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur nesciunt nobis dolorum molestiae saepe libero repudiandae magnam, quae excepturi. Optio commodi dolorum, ullam harum assumenda explicabo exercitationem est soluta id.
+        </p>
+    </div>
+
+    <script>
+        'use strict';
+        let show = document.querySelector('button');
+        let modalWindow = document.querySelector('.modal');
+        let hideDocument = document.querySelector('p');
+        
+        show.addEventListener('click', function(){
+            modalWindow.classList.remove('zoomOut','window');
+            modalWindow.classList.add('animated', 'zoomIn');
+        });
+        
+        hideDocument.addEventListener('click', function(){
+           modalWindow.classList.remove('zoomIn');
+           modalWindow.classList.add('zoomOut');
+           setTimeout(function(){
+               modalWindow.classList.add('window');
+           },1000);    
+        });
+    </script>
+    <style>
+         .window {
+            display: none;
+         } 
+
+        .modal {
+            width: 500px;
+            padding: 20px;
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            background: grey;
+            cursor: pointer;
+            
+            }
+    </style>
+</body>
+</html>

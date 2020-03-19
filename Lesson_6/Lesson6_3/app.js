@@ -152,7 +152,7 @@ let basket = {
     /* Метод для обнуления корзины - не работает
        метод вызывается в строке 27 */
     funClearTrash(product){
-    	let btnClearTrash = document.querySelector('.btnClearTrash');
+    	let btnClearTrash = document.querySelector('.btnClearTrashAll');
     	btnClearTrash.addEventListener('click', function(){
 			basket.products = {};
 			alert("products обнулён");// проверка срабатывания события

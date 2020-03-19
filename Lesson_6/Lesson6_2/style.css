@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+}
+
+
+
+/* Собственно сам слайдер */
+.slider{
+    width: 800px;
+    position: relative;
+    margin: auto;
+    height: 600px;
+}
+
+
+
+.slider-leftArrow, .slider-rightArrow {
+  position: absolute;
+  top: 47%;
+  z-index: 7;
+  color: #bbbbbb;
+  cursor: pointer;
+  font-size: 70px;
+}
+
+.slider-leftArrow {
+  left: 5%;
+}
+
+.slider-rightArrow {
+  right: 5%;
+}
+
+.slider-dots {
+    text-align: center;
+   
+}
+
+.slider-dots_item{
+    cursor: pointer;
+    height: 22px;
+    width: 22px;
+    margin: 0 5px;
+    background-color: grey;
+    border-radius: 70%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+
+
+.active,
+.slider-dots_item:hover {
+    background-color: black;
+}
+
+.fas.fa-spinner.fa-spin {
+  font-size: 50px;
+  color: #bbbbbb;
+  position: absolute;
+  left: calc(50% - 25px);
+  top: calc(50% - 25px);
+}
+
+.slider-leftToRightAnimation {
+  animation-name: leftToRight;
+  animation-iteration-count: 1;
+  animation-duration: 0.5s;
+  position: relative;
+  animation-timing-function: linear;
+}
+
+@keyframes leftToRight {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
+  }
+}
+
+.slider-rightToLeftAnimation {
+  animation-name: rightToLeft;
+  animation-iteration-count: 1;
+  animation-duration: 0.5s;
+  position: relative;
+  animation-timing-function: linear;
+}
+
+@keyframes rightToLeft {
+  from {
+    left: 100%;
+  }
+  to {
+    left: 0;
+  }
+}

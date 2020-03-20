@@ -24,7 +24,7 @@ let basket = {
         this.renderProductInBasket(product);
         this.renderTotalSum();
         this.addRemoveBtnsListeners();
-        this.funClearTrash();//обнуление объекта basket.products//
+        //this.funClearTrash();//обнуление объекта basket.products//
     },
 
     /**
@@ -145,19 +145,25 @@ let basket = {
             this.products[id].count--;
         }
     },
-
-
-
-
-    /* Метод для обнуления корзины - не работает
-       метод вызывается в строке 27 */
-    funClearTrash(product){
-    	let btnClearTrash = document.querySelector('.btnClearTrashAll');
-    	btnClearTrash.addEventListener('click', function(){
-			basket.products = {};
-			alert("products обнулён");// проверка срабатывания события
-			/* здесь должна быть функция для обновления корзины*/
-	
-		});
-    },
+ 
 };
+
+/* Метод для обнуления корзины - не работает   */
+
+let btnClearTrash = document.querySelector('.btnClearTrashAll');
+btnClearTrash.addEventListener('click', function(){
+    basket.products = {};
+    funClearTrash();
+    });
+
+function funClearTrash(){
+    document.querySelector('.total').textContent = 0;
+    let nodeCountTd = document.querySelectorAll('.productCount');
+    for (let i = 0; i < nodeCountTd.length ; i ++){
+        let productId =  nodeCountTd[i].dataset.id;
+        let countTd = document.querySelector(`.productCount[data-id="${productId}"]`);
+        countTd.parentNode.remove();
+    };
+
+};
+

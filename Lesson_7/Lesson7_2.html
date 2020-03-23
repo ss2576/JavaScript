@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+       	#game {
+	    width: 450px
+	    height: 450px;
+	    margin: 10px auto;
+	    border-collapse: collapse;
+	    background-color: grey;
+	    color: yellow;
+	    background-size: cover;
+		}
+
+		#game td {
+	    width: 150px;
+	    height: 150px;
+	    border: 1px solid black;
+	    text-align: center;
+	    font-size: 140px;
+		}
+
+		div.club {
+			display: inline;
+		}
+
+		div.hearts {
+			display: inline;
+		}
+
+		#count_1 {
+			text-align: center;
+		    left: 48%;
+		    margin-top: 70px;
+		    font-size: 25px;
+		    font-style: italic;
+		    font-weight: bold;
+		}
+
+		#count_2 {
+			text-align: center;
+		    left: 48%;
+		    margin-top: 70px;
+		    font-size: 25px;
+		    font-style: italic;
+		    font-weight: bold;
+		}
+
+		#btn {
+
+			background-color: red;
+			margin-top: 70px;
+			font-size: 25px;
+			font-style: italic;
+			font-weight: bold;
+			height: 50px; 
+			width: 300px;
+		}
+
+		#button {
+			text-align: center;
+		}
+    </style>
+</head>
+<body>
+    <table id="game"></table>
+    <div id="count_1">
+    	<div class="maps club">Трефы :</div>
+    	<div class="club count_club"></div>
+    </div>
+    <div id="count_2">
+    	<div class="maps hearts">Черви :</div>
+    	<div class="hearts count_hearts"></div>
+	</div>
+	<div id="button">
+	<button id="btn">Продолжить</button>
+	</div>
+    <script >
+    	let a = 5;   	
+		let clubInnerCount = document.querySelector('.count_club');
+		let heartsInnerCount = document.querySelector('.count_hearts');
+		let countHearts = 0;
+		let countClub = 0;
+		let btnNewGame = document.getElementById('btn');
+		
+		NewGame();
+
+		btnNewGame.addEventListener('click', function(){
+			let ceil = document.querySelectorAll('.td_td');
+			for (let i = 0; i < ceil.length; i++){
+				//ceil[i].innerText = '';
+				let ceil_i = ceil[i];
+				ceil_i.parentNode.remove();
+				
+			}
+			//NewGame();
+		})
+
+		
+		
+
+    	class Board {
+		    constructor() {
+		        this.gameTableElement = document.getElementById('game');
+		    }
+
+		    /**
+		     * @param {Game} game 
+		     * @param {Status} status
+		     */
+		    init(game, status) {
+		        this.game = game;
+		        this.status = status;
+		    }
+
+		    /**
+		     * Отрисовка игрового поля
+		     */
+		    renderMap() {
+		        for (let row = 0; row < 3; row++) {
+		            const tr = document.createElement('tr');
+		            this.gameTableElement.appendChild(tr);
+		            for (let col = 0; col < 3; col++) {
+		                let td = document.createElement('td');
+		                td.className = "td_td";
+		                td.dataset.row = row.toString();
+		                td.dataset.col = col.toString();
+		                tr.appendChild(td);
+		            }
+		        }
+		    }
+
+		    /**
+		     * Инициализация обработчиков событий.
+		     */
+		    initEventHandlers() {
+		        // Ставим обработчик, при клике на таблицу вызовется функция this.cellClickHandler.
+		        this.gameTableElement.addEventListener('click', event => this.game.cellClickHandler(event));
+		    }
+
+		     /**
+		     * Проверка что клик был по ячейке.
+		     * @param {Event} event
+		     * @param {HTMLElement} event.target
+		     * @returns {boolean} Вернет true, если клик был по ячейке, иначе false.
+		     */
+		    isClickByCell(event) {
+		        return event.target.tagName === 'TD';
+		    }
+
+		    /**
+		     * Проверка что в ячейку не ставили значение (крестик или нолик).
+		     * @param {Event} event
+		     * @param {HTMLElement} event.target
+		     * @returns {boolean} Вернет true, если ячейка пуста, иначе false.
+		     */
+		    isCellEmpty(event) {
+		        // Получаем строку и колонку куда кликнули.
+		        let row = +event.target.dataset.row;
+		        let col = +event.target.dataset.col;
+
+		        return this.status.mapValues[row][col] === '';
+		    }
+
+		    /**
+		     * Заполняет ячейку в которую кликнул пользователь в событии event.
+		     * @param {Event} event
+		     * @param {HTMLElement} event.target
+		     */
+		    fillCell(event) {
+		        // Получаем строку и колонку куда кликнули.
+		        let row = +event.target.dataset.row;
+		        let col = +event.target.dataset.col;
+
+		        // Заполняем ячейку и ставим значение в массиве, в свойстве mapValues.
+		        this.status.mapValues[row][col] = this.status.phase;
+		        event.target.textContent = this.status.phase;
+		    }
+		}
+		class Game {
+
+		    /**
+		     * @param {Status} status 
+		     * @param {Board} board 
+		     */
+		    init(status, board) {
+		        this.status = status;
+		        this.board = board;
+		    }
+
+		    /**
+		     * Обработчик события клика.
+		     * @param {MouseEvent} event
+		     */
+		    cellClickHandler(event) {
+		        // Если клик не нужно обрабатывать, уходим из функции.
+		        if (!this.isCorrectClick(event)) {
+		            return;
+		        }
+		        this.board.fillCell(event);
+		        if (this.hasWon()) {
+		            // Ставим статус в "остановлено".
+		            this.status.setStatusStopped();
+		            // Сообщаем о победе пользователя.
+		            this.sayWonPhrase();
+		        }
+
+		        // Меняем фигуру (крестик или нолик).
+		        this.status.togglePhase();
+		    }
+
+		    /**
+		     * Проверка был ли корректный клик, что описан в событии event.
+		     * @param {Event} event
+		     * @returns {boolean} Вернет true в случае если статус игры "играем", клик что описан в объекте event был
+		     * по ячейке и ячейка куда был произведен клик был по пустой ячейке.
+		     */
+		    isCorrectClick(event) {
+		        return this.status.isStatusPlaying() && this.board.isClickByCell(event) && this.board.isCellEmpty(event);
+		    }
+
+		    /**
+		     * Проверка есть ли выигрышная ситуация на карте.
+		     * @returns {boolean} Вернет true, если игра выиграна, иначе false.
+		     */
+		    hasWon() {
+		        return this.isLineWon({ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }) ||
+		               this.isLineWon({ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }) ||
+		               this.isLineWon({ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }) ||
+
+		               this.isLineWon({ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }) ||
+		               this.isLineWon({ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }) ||
+		               this.isLineWon({ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }) ||
+
+		               this.isLineWon({ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }) ||
+		               this.isLineWon({ x: 0, y: 2 }, { x: 1, y: 1 }, { x: 2, y: 0 });
+		    }
+
+		    /**
+		     * Проверка есть ли выигрышная ситуация на линии.
+		     * @param {{x: int, y: int}} a 1-ая ячейка.
+		     * @param {{x: int, y: int}} b 2-ая ячейка.
+		     * @param {{x: int, y: int}} c 3-я ячейка.
+		     * @returns {boolean} Вернет true, если линия выиграна, иначе false.
+		     */
+		    isLineWon(a, b, c) {
+		        let value = this.status.mapValues[a.y][a.x] + this.status.mapValues[b.y][b.x] + this.status.mapValues[c.y][c.x];
+		        return value === '♣♣♣' || value === '♥♥♥';
+		    }
+
+		    /**
+		     * Сообщает о победе.
+		     */
+		    sayWonPhrase() {
+		        let figure = this.status.phase === '♣' ? 'Трефы' : 'Черви';
+		        alert(`${figure} выиграли!`);
+		        if(figure == 'Трефы'){
+		        	countClub += 1;
+		        	clubInnerCount.innerText = countClub ;
+		        }
+		        else {
+		        	countHearts += 1;
+		        	heartsInnerCount.innerText = countHearts;
+		        };
+		    }
+		}
+		
+		function NewGame(){ 
+		window.addEventListener('load', function() {
+		    const game = new Game();
+		    const board = new Board();
+		    const status = new Status();
+
+		    board.init(game, status);
+		    game.init(status, board);
+
+		    board.renderMap();
+		    board.initEventHandlers();
+		});
+		}
+		class Status {
+		    constructor() {
+		        this.status = 'playing';
+		        this.mapValues = [
+		            ['', '', ''],
+		            ['', '', ''],
+		            ['', '', ''],
+		        ];
+		        this.phase = '♣';
+		    }
+
+		    /**
+		     * Проверка что мы "играем", что игра не закончена.
+		     * @returns {boolean} Вернет true, статус игры "играем", иначе false.
+		     */
+		    isStatusPlaying() {
+		        return this.status === 'playing';
+		    }
+
+		    /**
+		     * Ставит статус игры в "остановлена".
+		     */
+		    setStatusStopped() {
+		        this.status = 'stopped';
+		    }
+
+		     /**
+		     * Меняет фигуру (крестик или нолик).
+		     */
+		    togglePhase() {
+		        this.phase = this.phase === '♣' ? '♥' : '♣';
+		    };
+
+		}
+    </script>
+</body>
+</html>

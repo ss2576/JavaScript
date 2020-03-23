@@ -35,7 +35,7 @@
 		#count_1 {
 			text-align: center;
 		    left: 48%;
-		    margin-top: 70px;
+		    margin-top: 40px;
 		    font-size: 25px;
 		    font-style: italic;
 		    font-weight: bold;
@@ -44,7 +44,7 @@
 		#count_2 {
 			text-align: center;
 		    left: 48%;
-		    margin-top: 70px;
+		    margin-top: 40px;
 		    font-size: 25px;
 		    font-style: italic;
 		    font-weight: bold;
@@ -53,7 +53,7 @@
 		#btn {
 
 			background-color: red;
-			margin-top: 70px;
+			margin-top: 40px;
 			font-size: 25px;
 			font-style: italic;
 			font-weight: bold;
@@ -80,14 +80,27 @@
 	<button id="btn">Продолжить</button>
 	</div>
     <script >
-    	let a = 5;   	
+    	
+    	/* Создаём счётчики игроков и перезапускаем игру*/  	
 		let clubInnerCount = document.querySelector('.count_club');
 		let heartsInnerCount = document.querySelector('.count_hearts');
 		let countHearts = 0;
 		let countClub = 0;
 		let btnNewGame = document.getElementById('btn');
+		clubInnerCount.innerText = countClub;
+		heartsInnerCount.innerText = countHearts;
 		
 		NewGame();
+
+		function NewGameNew(){ 
+		    const game = new Game();
+		    const board = new Board();
+		    const status = new Status();
+		    board.init(game, status);
+		    game.init(status, board);
+		    board.renderMap();
+		    board.initEventHandlers();
+		}
 
 		btnNewGame.addEventListener('click', function(){
 			let ceil = document.querySelectorAll('.td_td');
@@ -95,9 +108,9 @@
 				//ceil[i].innerText = '';
 				let ceil_i = ceil[i];
 				ceil_i.parentNode.remove();
-				
 			}
-			//NewGame();
+			NewGameNew();
+			
 		})
 
 		

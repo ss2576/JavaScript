@@ -1,0 +1,34 @@
+   table {
+           border-collapse: collapse;
+        }
+
+        tr {
+            width: 70px;
+            height: 70px;
+        }
+
+        td {
+            border: 1px solid grey;
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        td:hover {
+            //transform: scale(1.2);
+            font-size: 55px;
+            cursor: grab;
+        }
+
+        p {
+           font-size: 55px; 
+           #border: 1px solid #f00;
+           width: 55px;
+           height: 55px;
+        }
+
+        p:hover {
+            cursor: grabbing;
+        }
